@@ -17,20 +17,34 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /(\.js$|\.jsx?$)/, exclude: /node_modules/, loaders: ['react-hot', 'babel'] },
-      { test: /\.js$/, include: path.resolve(__dirname, './node_modules/blk/node_modules/jxnblk-avatar/src'), loaders: ['babel'] },
-      { test: /\.js$/, include: path.resolve(__dirname, './node_modules/jxnblk-avatar/src'), loaders: ['babel'] },
+      { test: /(\.js$|\.jsx?$)/, exclude: /node_modules/, loaders: ['react-hot-loader', 'babel-loader'] },
+      { test: /\.js$/, include: path.resolve(__dirname, './node_modules/blk/node_modules/jxnblk-avatar/src'), loaders: ['babel-loader'] },
+      { test: /\.js$/, include: path.resolve(__dirname, './node_modules/jxnblk-avatar/src'), loaders: ['babel-loader'] },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.css$/, loader: 'style-loader!css-loader!cssnext-loader' }
     ]
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        cssnext: {
+          compress: true,
+          features: {
+            customProperties: {
+              variables: {
+                blue: '#0cf'
+              }
+            }
+          }
+        }
+      }
+    })
   ],
 
   devServer: {
@@ -38,16 +52,7 @@ module.exports = {
     hot: true
   },
 
-  cssnext: {
-    compress: true,
-    features: {
-      customProperties: {
-        variables: {
-          blue: '#0cf'
-        }
-      }
-    }
-  }
+
 
 }
 
